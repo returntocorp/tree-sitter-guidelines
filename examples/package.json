@@ -13,7 +13,6 @@
     "tree-sitter-cli": "^0.17.3"
   },
   "scripts": {
-    "build": "./build-all",
     "test": "./test-all"
   }
 }

@@ -19,7 +19,7 @@ jobs:
           name: Install npm dependencies
           command: |
             cd examples
-            npm install --ignore-scripts
+            npm install
       - run:
           name: Build grammars
           command: |
