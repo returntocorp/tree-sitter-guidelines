@@ -1,0 +1,20 @@
+# Standard node files
+/package-lock.json
+node_modules
+
+# Tree-sitter artifacts
+/grammars/*/binding.gyp
+/grammars/*/index.js
+/grammars/*/src/binding.cc
+/grammars/*/src/grammar.json
+/grammars/*/src/node-types.json
+/grammars/*/src/parser.c
+/grammars/*/src/tree_sitter
+
+# Custom artifacts
+build.out
+test.out
+BUILD-OK
+BUILD-FAILED
+TEST-OK
+TEST-FAILED

@@ -1,0 +1,102 @@
+#! /usr/bin/env bash
+#
+# Set up stubs for a tree-sitter project.
+#
+set -eu
+
+usage() {
+  cat <<EOF
+Usage: $0 NAME
+Create a tree-sitter project using a standard structure in the folder
+grammars/NAME.
+
+Options:
+  --force
+      Overwrite files silently.
+
+  --help
+      Print this help message.
+EOF
+}
+
+error() {
+  {
+    echo "Error: $*"
+    usage
+  } >&2
+  exit 1
+}
+
+force='false'
+name=''
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    --force)
+      force="true"
+      ;;
+    --help)
+      usage
+      exit 0
+      ;;
+    -*)
+      error "Invalid option '$1'"
+      exit 1
+      ;;
+    *)
+      if [[ -z "$name" ]]; then
+        name=$1
+      else
+        error "Invalid argument: $1"
+      fi
+  esac
+  shift
+done
+
+if [[ -z "$name" ]]; then
+  error "Missing project name"
+fi
+
+c_name=$(echo "$name" | tr '-' '_')
+
+################################# Create stubs ##############################
+gramdir="grammars/$name"
+
+if [[ ! -e "$gramdir" || "$force" = true ]]; then
+  mkdir -p "$gramdir"
+else
+  error "Folder '$name' exists. Use '--force' to overwrite."
+fi
+
+cd "$gramdir"
+
+cat > grammar.js <<EOF
+module.exports = grammar({
+  name: "$c_name",
+  rules: {
+    program: $ => seq(
+      $.ident,
+      $.num
+    ),
+    ident: $ => /[a-z]+/,
+    num: $ => /[0-9]+/
+  }
+});
+EOF
+
+mkdir -p corpus
+cat > corpus/all.txt <<EOF
+======================================
+example
+======================================
+
+hello 123
+
+---
+
+(program
+  (ident)
+  (num))
+
+EOF
+
+mkdir -p src

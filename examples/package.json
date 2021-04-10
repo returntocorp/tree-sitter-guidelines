@@ -1,0 +1,19 @@
+{
+  "name": "tree-sitter-examples",
+  "version": "0.0.0",
+  "description": "examples for node-tree-sitter",
+  "main": "index.js",
+  "keywords": [
+    "parser",
+    "lexer"
+  ],
+  "author": "Martin Jambon",
+  "license": "MIT",
+  "devDependencies": {
+    "tree-sitter-cli": "^0.17.3"
+  },
+  "scripts": {
+    "build": "./build-all",
+    "test": "./test-all"
+  }
+}

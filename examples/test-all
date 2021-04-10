@@ -1,0 +1,43 @@
+#! /usr/bin/env bash
+#
+# Test all the grammars. Some are expected to fail.
+#
+set -eu
+
+clear_status() {
+  rm -f TEST-OK TEST-FAIL
+}
+
+#
+# See notes about status and expectations in 'build-all'.
+#
+check_status() {
+  if [[ -e TEST-FAIL && ! -e EXPECT-TEST-FAIL ]]; then
+    touch CI-FAIL
+  elif [[ -e TEST-OK && -e EXPECT-TEST-FAIL ]]; then
+    touch CI-FAIL
+  fi
+}
+
+for gramdir in grammars/*; do
+  grammar=$(basename "$gramdir")
+  (
+    cd "$gramdir"
+    clear_status
+    if [[ -e EXPECT-BUILD-FAIL || -e BUILD-FAIL ]]; then
+      echo "===== [Skip testing $grammar] ====="
+    else
+      echo "===== Test $grammar ====="
+      {
+        if npx tree-sitter test 2>&1; then
+          echo "OK"
+          touch TEST-OK
+        else
+          echo "FAIL"
+          touch TEST-FAIL
+        fi
+      } | tee test.out
+      check_status
+    fi
+  )
+done
