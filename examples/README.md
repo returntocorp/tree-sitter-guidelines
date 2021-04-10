@@ -1,7 +1,7 @@
 Tree-sitter parsing examples
 ==
 
-This folder contains examples, some which display errors on purpose.
+This folder contains examples, some of which demonstrate errors.
 The grammars and the accompanying tests can be found under
 [`grammars/`](grammars).
 
