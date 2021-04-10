@@ -1,0 +1,29 @@
+#
+# Circle CI configuration. Runs each time we push a new commit to Github
+# and takes care of validating the examples.
+#
+version: 2.1
+jobs:
+  build:
+    docker:
+      - image: node:14.16.1-buster-slim
+    working_directory: ~/tree-sitter-guidelines
+    steps:
+      - checkout
+      - run:
+          name: build the sample grammars
+          command: |
+            cd examples
+            ./build-all
+      - run:
+          name: test the sample grammars
+          command: |
+            cd examples
+            ./test-all
+
+workflows:
+  version: 2
+
+  build-on-commit:
+    jobs:
+      - build
