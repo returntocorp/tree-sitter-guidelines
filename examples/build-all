@@ -23,6 +23,8 @@ check_status() {
   fi
 }
 
+status=0
+
 for gramdir in grammars/*; do
   grammar=$(basename "$gramdir")
   (
@@ -40,4 +42,9 @@ for gramdir in grammars/*; do
     } | tee build.out
     check_status
   )
+  if [[ -e "$gramdir"/CI-FAIL ]]; then
+    status=1
+  fi
 done
+
+exit "$status"
