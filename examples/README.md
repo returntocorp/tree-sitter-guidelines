@@ -11,8 +11,8 @@ make
 make test
 ```
 
-After that, if you want to work on a single example `hello`, you can
-call `tree-sitter` directly:
+After that, if you want to work on a single grammar `hello`, you can
+save time by calling `tree-sitter` directly:
 ```
 cd grammars/hello
 npx tree-sitter generate
