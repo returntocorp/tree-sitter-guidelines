@@ -1,5 +1,6 @@
 Guidelines for improving tree-sitter parsers
 ==
+[![CircleCI badge](https://circleci.com/gh/returntocorp/tree-sitter-guidelines.svg?style=svg)](https://app.circleci.com/pipelines/github/returntocorp/tree-sitter-guidelines)
 
 This is for people who wish to help with fixing or extending
 [tree-sitter](https://tree-sitter.github.io/) parsers, such as
