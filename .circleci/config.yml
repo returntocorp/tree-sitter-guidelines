@@ -7,7 +7,7 @@ jobs:
   build:
     docker:
       - image: node:14.16.1-buster-slim
-    working_directory: ~/tree-sitter-guidelines/examples
+    working_directory: ~/tree-sitter-guidelines
     steps:
       - checkout
       - run:
@@ -16,14 +16,20 @@ jobs:
             apt-get update
             apt-get install -y python3 clang
       - run:
-          name: Install node dependencies
-          command: npm install
+          name: Install npm dependencies
+          command: |
+            cd examples
+            npm install --ignore-scripts
       - run:
           name: Build grammars
-          command: ./build-all
+          command: |
+            cd examples
+            ./build-all
       - run:
-          name: test grammars
-          command: ./test-all
+          name: Test grammars
+          command: |
+            cd examples
+            ./test-all
 
 workflows:
   version: 2
