@@ -19,6 +19,8 @@ check_status() {
   fi
 }
 
+status=0
+
 for gramdir in grammars/*; do
   grammar=$(basename "$gramdir")
   (
@@ -40,4 +42,9 @@ for gramdir in grammars/*; do
       check_status
     fi
   )
+  if [[ -e "$gramdir"/CI-FAIL ]]; then
+    status=1
+  fi
 done
+
+exit "$status"
