@@ -5,7 +5,7 @@
 
 .PHONY: test
 test:
-	# I couldn't find a way to have 'test-all' run as part of
-	# 'npm install' while preserving its output.
+	# Install tree-sitter.
 	npm install
+	# Build and test the grammars.
 	./test-all

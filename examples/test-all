@@ -70,6 +70,10 @@ for gramdir in $(pwd)/grammars/*; do
         summary "$grammar build: UNEXPECTED FAIL"
       fi
     fi
+    # This file is created by 'tree-sitter generate' (tree-sitter 0.19)
+    # and we don't want it. Instead, we use the package.json in a parent
+    # directory which provides tree-sitter-cli for all the grammars.
+    rm -f package.json
 
     if [[ "$build_success" = no || -e EXPECT-BUILD-FAIL ]]; then
       echo "===== [Skip testing $grammar]"

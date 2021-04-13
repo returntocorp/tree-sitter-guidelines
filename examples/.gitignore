@@ -10,6 +10,10 @@ node_modules
 /grammars/*/src/node-types.json
 /grammars/*/src/parser.c
 /grammars/*/src/tree_sitter
+/grammars/*/Cargo.toml
+/grammars/*/bindings
+/grammars/*/build
+/grammars/*/package-lock.json
 
 # Custom artifacts
 /summary.txt
