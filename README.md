@@ -124,7 +124,7 @@ Possible resolutions:
   5:  Add a conflict for these rules: `exp1`, `exp2`
 ```
 
-There's a lot going in this message. We'll take a closer look
+There's a lot going on in this message. We'll take a closer look
 later. For now, let's just assume that the resolution is obvious.
 
 We solve the conflict statically by
