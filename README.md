@@ -35,7 +35,9 @@ Sample parsing problems
 --
 
 This is a growing collection of problems that a grammar developer may
-face, with tips on how to deal with them. Each example comes with
+face, with tips on how to deal with them. Please [create an
+issue](https://github.com/returntocorp/tree-sitter-guidelines/issues)
+for questions you'd like to be covered. Each example comes with
 complete and valid source code to be found in the
 [`examples/grammars`](examples/grammars) folder. To try out the
 examples by yourself, clone this git repo and run
