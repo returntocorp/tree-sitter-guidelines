@@ -47,7 +47,7 @@ complete and valid source code to be found in the
 [`examples/grammars`](examples/grammars) folder. To try out the
 examples by yourself, clone this git repo and run
 `make`. You'll need nodejs and possibly other things. Look into the CI
-setup ([`.circleci/config.yaml`](.circleci/config.yaml)) for a
+setup ([`.circleci/config.yml`](.circleci/config.yml)) for a
 reproducible build on ubuntu.
 
 The main reference for writing tree-sitter grammars remains the
