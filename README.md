@@ -10,7 +10,12 @@ Not all tree-sitter parsers are managed by the [tree-sitter
 organization on GitHub](https://github.com/tree-sitter) but most
 guidelines should apply there as well.
 
-Contribution workflow
+* [Contribution workflow](#workflow)
+* [Sample parsing problems](#problems)
+  - [Simple grammar with no difficulty](#hello)
+  - [Static conflict](#static-conflict)
+
+<a name="workflow"></a> Contribution workflow
 --
 
 1. Locate the public git repository for the language of interest
@@ -31,7 +36,7 @@ Contribution workflow
    - The parser size hasn't grown too much (check the value
      of `STATE_COUNT` in `src/parser.c`).
 
-Sample parsing problems
+<a name="problems"></a> Sample parsing problems
 --
 
 This is a growing collection of problems that a grammar developer may
@@ -50,7 +55,7 @@ The main reference for writing tree-sitter grammars remains the
 documentation](https://tree-sitter.github.io/tree-sitter/creating-parsers). In
 particular, it documents the various constructs available to define grammars.
 
-### Simple grammar with no difficulty
+### <a name="hello"></a> Simple grammar with no difficulty
 
 This is a full `grammar.js` file which parses a word followed by a
 number, with optional whitespace.
@@ -85,7 +90,7 @@ hello
 
 Source code: [hello](examples/grammars/hello)
 
-### Static conflict
+### <a name="static-conflict"></a> Static conflict
 
 The following grammar fails to compile due to a conflict. The conflict
 is called "static" because it is detected when compiling the
