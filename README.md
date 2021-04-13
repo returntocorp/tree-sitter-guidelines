@@ -34,7 +34,7 @@ Contribution workflow
 Sample parsing problems
 --
 
-This a growing collection of problems that a grammar developer may
+This is a growing collection of problems that a grammar developer may
 face, with tips on how to deal with them. Each example comes with
 complete and valid source code to be found in the
 [`examples/grammars`](examples/grammars) folder. To try out the
@@ -50,7 +50,7 @@ particular, it documents the various constructs available to define grammars.
 
 ### Simple grammar with no difficulty
 
-This is full `grammar.js` file, which parses a word followed by a
+This is a full `grammar.js` file which parses a word followed by a
 number, with optional whitespace.
 
 ```js
@@ -67,9 +67,13 @@ module.exports = grammar({
 });
 ```
 
-Valid input:
+Valid inputs:
 ```
 hello 123
+```
+
+```
+hello123
 ```
 
 ```
@@ -83,7 +87,7 @@ Source code: [hello](examples/grammars/hello)
 
 The following grammar fails to compile due to a conflict. The conflict
 is called "static" because it is detected when compiling the
-grammar.
+grammar, not when parsing some input.
 
 ```js
 module.exports = grammar({
@@ -105,8 +109,9 @@ module.exports = grammar({
 ```
 
 The example makes it clear there will be a conflict because the rules
-`exp1` and `exp2` are identical. `tree-sitter generate` shows where
-the conflict occurs and makes suggestions for resolving it:
+`exp1` and `exp2` are identical and used as an alternative for
+`exp`. `tree-sitter generate` shows where the conflict occurs and
+makes suggestions for resolving it:
 
 ```
 Unresolved conflict for symbol sequence:
