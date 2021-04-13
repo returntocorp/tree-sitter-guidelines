@@ -1,17 +1,29 @@
 #! /usr/bin/env bash
 #
-# Test all the grammars. Some are expected to fail.
+# Build all the grammars. Some are expected to fail.
 #
 set -eu
 
 clear_status() {
-  rm -f TEST-OK TEST-FAIL
+  rm -f BUILD-OK BUILD-FAIL CI-FAIL
 }
 
+# This is super ugly but should be ok, right?
 #
-# See notes about status and expectations in 'build-all'.
+# The EXPECT-BUILD-OK and EXPECT-BUILD-FAIL are persistent and set the
+# expectations. EXPECT-BUILD-OK is optional. They are consulted by the
+# 'test-all' script to determine whether the tests should be
+# attempted.
 #
-check_status() {
+check_build_status() {
+  if [[ -e BUILD-FAIL && ! -e EXPECT-BUILD-FAIL ]]; then
+    touch CI-FAIL
+  elif [[ -e BUILD-OK && -e EXPECT-BUILD-FAIL ]]; then
+    touch CI-FAIL
+  fi
+}
+
+check_test_status() {
   if [[ -e TEST-FAIL && ! -e EXPECT-TEST-FAIL ]]; then
     touch CI-FAIL
   elif [[ -e TEST-OK && -e EXPECT-TEST-FAIL ]]; then
@@ -21,30 +33,69 @@ check_status() {
 
 status=0
 
-for gramdir in grammars/*; do
+summary_file=$(pwd)/summary.txt
+rm -f "$summary_file"
+summary () {
+  echo $* >> "$summary_file"
+}
+
+error_count=0
+fail () {
+  error_count=$(( error_count + 1 ))
+}
+
+#
+# Run build + test for each grammar.
+#
+for gramdir in $(pwd)/grammars/*; do
   grammar=$(basename "$gramdir")
-  (
-    cd "$gramdir"
-    clear_status
-    if [[ -e EXPECT-BUILD-FAIL || -e BUILD-FAIL ]]; then
-      echo "===== [Skip testing $grammar] ====="
+
+  cd "$gramdir"
+  build_success=yes
+  {
+    echo "===== Build $grammar"
+    if npx tree-sitter generate 2>&1; then
+      if [[ -e EXPECT-BUILD-FAIL ]]; then
+        fail
+        summary "$grammar build: UNEXPECTED SUCCESS"
+      else
+        summary "$grammar build: expected success"
+      fi
     else
-      echo "===== Test $grammar ====="
-      {
-        if npx tree-sitter test 2>&1; then
-          echo "OK"
-          touch TEST-OK
-        else
-          echo "FAIL"
-          touch TEST-FAIL
-        fi
-      } | tee test.out
-      check_status
+      build_success=no
+      if [[ -e EXPECT-BUILD-FAIL ]]; then
+        summary "$grammar build: expected fail"
+      else
+        fail
+        summary "$grammar build: UNEXPECTED FAIL"
+      fi
     fi
-  )
-  if [[ -e "$gramdir"/CI-FAIL ]]; then
-    status=1
-  fi
+
+    if [[ "$build_success" = no || -e EXPECT-BUILD-FAIL ]]; then
+      echo "===== [Skip testing $grammar]"
+      summary "$grammar test: skipped"
+    else
+      echo "===== Test $grammar"
+      if npx tree-sitter test 2>&1; then
+        summary "$grammar test: success"
+      else
+        fail
+        summary "$grammar test: FAIL"
+      fi
+    fi
+  } | tee output.log
 done
 
-exit "$status"
+#
+# Summarize results
+#
+echo "===== Results"
+cat "$summary_file"
+
+if [[ "$error_count" -gt 0 ]]; then
+  {
+    echo
+    echo "$error_count unexpected result(s)."
+  }
+  exit 1
+fi

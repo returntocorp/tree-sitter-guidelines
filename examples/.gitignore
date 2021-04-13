@@ -12,10 +12,5 @@ node_modules
 /grammars/*/src/tree_sitter
 
 # Custom artifacts
-build.out
-test.out
-BUILD-OK
-BUILD-FAIL
-TEST-OK
-TEST-FAIL
-CI-FAIL
+/summary.txt
+/grammars/*/output.log

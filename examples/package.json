@@ -9,10 +9,8 @@
   ],
   "author": "Martin Jambon",
   "license": "MIT",
-  "devDependencies": {
-    "tree-sitter-cli": "^0.17.3"
-  },
-  "scripts": {
-    "test": "./test-all"
+  "dependencies": {
+    "tree-sitter": "^0.19.0",
+    "tree-sitter-cli": "^0.19.3"
   }
 }

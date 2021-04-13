@@ -34,4 +34,38 @@ Contribution workflow
 Sample parsing problems
 --
 
-...
+This a growing collection of problems that a grammar developer may
+face, with tips on how to deal with them. Each example comes with
+complete and valid source code to be found in the
+[`examples/grammars`](examples/grammars) folder.
+
+### Simple grammar with no difficulty
+
+This is full `grammar.js` file, which parses a word followed by a
+number, with optional whitespace.
+
+```js
+module.exports = grammar({
+  name: "hello",
+  rules: {
+    program: $ => seq(
+      $.ident,
+      $.num
+    ),
+    ident: $ => /[a-z]+/,
+    num: $ => /[0-9]+/
+  }
+});
+```
+
+Valid input:
+```
+hello 123
+```
+
+```
+hello
+123
+```
+
+Source code: [hello](examples/grammars/hello)

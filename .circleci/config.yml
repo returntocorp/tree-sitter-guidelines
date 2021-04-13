@@ -21,12 +21,7 @@ jobs:
             cd examples
             npm install
       - run:
-          name: Build grammars
-          command: |
-            cd examples
-            ./build-all
-      - run:
-          name: Test grammars
+          name: Build and test grammars
           command: |
             cd examples
             ./test-all
