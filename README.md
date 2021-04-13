@@ -69,3 +69,93 @@ hello
 ```
 
 Source code: [hello](examples/grammars/hello)
+
+### Static conflict
+
+The following grammar fails to compile due to a conflict. The conflict
+is called "static" because it is detected when compiling the
+grammar.
+
+```js
+module.exports = grammar({
+  name: "static_conflict",
+  rules: {
+    // entry point
+    exp: $ => choice(
+      $.exp1,
+      $.exp2,
+      $.ident
+    ),
+
+    exp1: $ => seq($.exp, $.exp),
+    exp2: $ => seq($.exp, $.exp),
+
+    ident: $ => /[a-z]+/
+  }
+});
+```
+
+The example makes it clear there will be a conflict because the rules
+`exp1` and `exp2` are identical. `tree-sitter generate` shows where
+the conflict occurs and makes suggestions for resolving it:
+
+```
+Unresolved conflict for symbol sequence:
+
+  exp  exp  •  ident  …
+
+Possible interpretations:
+
+  1:  (exp1  exp  exp)  •  ident  …
+  2:  (exp2  exp  exp)  •  ident  …
+  3:  exp  (exp1  exp  •  exp)
+  4:  exp  (exp2  exp  •  exp)
+
+Possible resolutions:
+
+  1:  Specify a higher precedence in `exp1` and `exp2` than in the other rules.
+  2:  Specify a higher precedence in `exp1` than in the other rules.
+  3:  Specify a higher precedence in `exp2` than in the other rules.
+  4:  Specify a left or right associativity in `exp1` and `exp2`
+  5:  Add a conflict for these rules: `exp1`, `exp2`
+```
+
+We solve the conflict statically by
+specifying that rule `exp1` has precedence over rule `exp2`. We use
+the newer way (since tree-sitter 0.19), which consists in specifying
+groups of rules. Within each group, a rule has a higher priority than
+all the rules that follow. Our solution is:
+
+```js
+module.exports = grammar({
+  name: "static_conflict_solved",
+
+  // Partial ordering of rules by precedence.
+  precedences: $ => [
+    [
+      // strongest
+      $.exp1, // stronger than the next element in the group
+      $.exp2,
+      // weakest
+    ]
+  ],
+
+  rules: {
+    // entry point
+    exp: $ => choice(
+      $.exp1,
+      $.exp2,
+      $.ident
+    ),
+
+    exp1: $ => seq($.exp, $.exp),
+    exp2: $ => seq($.exp, $.exp),
+
+    ident: $ => /[a-z]+/
+  }
+});
+```
+
+Source code:
+* [static-conflict-fail](examples/grammars/static-conflict-fail)
+* [static-conflict-solved](examples/grammars/static-conflict-solved)
