@@ -46,9 +46,9 @@ for questions you'd like to be covered. Each example comes with
 complete and valid source code to be found in the
 [`examples/grammars`](examples/grammars) folder. To try out the
 examples by yourself, clone this git repo and run
-`make`. You'll need nodejs and possibly other things. Look into the CI
+`make`. You'll need Nodejs and possibly other things. Look into the CI
 setup ([`.circleci/config.yml`](.circleci/config.yml)) for a
-reproducible build on ubuntu.
+reproducible build in Docker.
 
 The main reference for writing tree-sitter grammars remains the
 [official tree-sitter
