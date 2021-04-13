@@ -24,7 +24,7 @@ guidelines should apply there as well.
    you want to implement.
 3. Fork and clone the git repository, start a new branch.
 4. Check that everything's working for you with `npm install && npm
-   tests`.
+   test`.
 5. Add tests to the test suites in `corpus/` or `test/corpus`.
 6. Modify the source code, typically in `grammar.js`, `src/scanner.c`,
    or `src/scanner.cc` until it works or ask for help.
