@@ -82,7 +82,7 @@ grammar.
 
 ```js
 module.exports = grammar({
-  name: "static_conflict",
+  name: "static_conflict_fail",
   rules: {
     // entry point
     exp: $ => choice(
