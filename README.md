@@ -37,7 +37,11 @@ Sample parsing problems
 This a growing collection of problems that a grammar developer may
 face, with tips on how to deal with them. Each example comes with
 complete and valid source code to be found in the
-[`examples/grammars`](examples/grammars) folder.
+[`examples/grammars`](examples/grammars) folder. To try out the
+examples by yourself, clone this git repo and run
+`make`. You'll need nodejs and possibly other things. Look into the CI
+setup ([`.circleci/config.yaml`](.circleci/config.yaml)) for a
+reproducible build on ubuntu.
 
 ### Simple grammar with no difficulty
 
@@ -119,6 +123,9 @@ Possible resolutions:
   4:  Specify a left or right associativity in `exp1` and `exp2`
   5:  Add a conflict for these rules: `exp1`, `exp2`
 ```
+
+There's a lot going in this message. We'll take a closer look
+later. For now, let's just assume that the resolution is obvious.
 
 We solve the conflict statically by
 specifying that rule `exp1` has precedence over rule `exp2`. We use
