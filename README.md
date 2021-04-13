@@ -43,6 +43,11 @@ examples by yourself, clone this git repo and run
 setup ([`.circleci/config.yaml`](.circleci/config.yaml)) for a
 reproducible build on ubuntu.
 
+The main reference for writing tree-sitter grammars remains the
+[official tree-sitter
+documentation](https://tree-sitter.github.io/tree-sitter/creating-parsers). In
+particular, it documents the various constructs available to define grammars.
+
 ### Simple grammar with no difficulty
 
 This is full `grammar.js` file, which parses a word followed by a
@@ -162,6 +167,31 @@ module.exports = grammar({
   }
 });
 ```
+
+The input `a b c d` is then parsed into the following tree:
+```
+(exp
+  (exp1
+    (exp
+      (exp1
+        (exp
+          (exp1
+            (exp (ident))
+            (exp (ident)))
+        )
+        (exp (ident))
+      )
+    )
+    (exp (ident))
+  )
+)
+```
+
+Note that the default is left associativity. If we show only
+the parentheses around each `exp1`, the parse tree is `(((a b) c) d)`.
+Right associativity can be specified with a `prec.right` annotation
+and it would give us `(a (b (c d)))` instead (refer to the tree-sitter
+manual).
 
 Source code:
 * [static-conflict-fail](examples/grammars/static-conflict-fail)
